@@ -1,6 +1,12 @@
 local home = os.getenv "HOME"
-
+local workspace_folder = home .. "/.local/share/eclipse/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
+--
+
+
+local Remap = require("user.keymap")
+local nnoremap = Remap.nnoremap;
+
 local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
@@ -38,7 +44,7 @@ local config = {
 
     -- 💀
     -- See `data directory configuration` section in the README
-    '-data', '/home/thiago/workspace'
+    '-data', workspace_folder
   },
 
   -- 💀
@@ -73,7 +79,6 @@ local config = {
 
 
 
-
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
   -- for a list of options
@@ -91,12 +96,23 @@ local config = {
 --
 
 
-config['on_attach'] = function(client, bufnr)
+config.on_attach = function(client, bufnr)
   -- With `hotcodereplace = 'auto' the debug adapter will try to apply code changes
   -- you make during a debug session immediately.
   -- Remove the option if you do not want that.
   -- You can use the `JdtHotcodeReplace` command to trigger it manually
   require('jdtls').setup_dap({ hotcodereplace = 'auto' })
+
+  nnoremap("<leader>eo", function() vim.diagnostic.open_float() end)
+  nnoremap("<leader>en", function() vim.diagnostic.goto_next() end)
+  nnoremap("<leader>ep", function() vim.diagnostic.goto_prev() end)
+  nnoremap("<leader>ea", '<cmd>Telescope diagnostics<CR>')
+  nnoremap("gi", function() vim.lsp.buf.implementation() end)
+  nnoremap("gd", function() vim.lsp.buf.definition() end)
+  nnoremap("gu", function() vim.lsp.buf.references() end)
+  nnoremap("<leader>a", function() vim.lsp.buf.hover() end)
+  nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
+  nnoremap("<leader>vca", function() vim.lsp.buf.code_action() end)
 end
 
 local java_debug_path = 
@@ -108,41 +124,9 @@ local bundles = {
 };
 
 -- This is the new part
-vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/.local/share/nvim/dap_stuff/vscode-java-test/server/*.jar", 1), "\n"))
-config['init_options'] = {
+vim.list_extend(bundles, vim.split(vim.fn.glob("/path/to/microsoft/vscode-java-test/server/*.jar", 1), "\n"))
+config.init_options = {
   bundles = bundles;
 }
 
-
 require('jdtls').start_or_attach(config);
-
-
-print(config['init_options']['bundles'][1]);
-print(config['init_options']['bundles'][1]);
-
-local Remap = require("user.keymap")
-local nnoremap = Remap.nnoremap;
-
-
-nnoremap("<leader>eo", function() vim.diagnostic.open_float() end)
-nnoremap("<leader>en", function() vim.diagnostic.goto_next() end)
-nnoremap("<leader>ep", function() vim.diagnostic.goto_prev() end)
-nnoremap("<leader>ea", '<cmd>Telescope diagnostics<CR>')
-nnoremap("gi", function() vim.lsp.buf.implementation() end)
-nnoremap("gd", function() vim.lsp.buf.definition() end)
-nnoremap("<leader>a", function() vim.lsp.buf.hover() end)
-nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-nnoremap("<leader>vca", function() vim.lsp.buf.code_action() end)
-nnoremap("<leader>vco", function() vim.lsp.buf.code_action({
-          filter = function(code_action)
-              if not code_action or not code_action.data then
-                  return false
-              end
-
-              local data = code_action.data.id
-              return string.sub(data, #data - 1, #data) == ":0"
-          end,
-          apply = true
-      }) end)
-nnoremap("<leader>vrr", function() vim.lsp.buf.references() end)
-
