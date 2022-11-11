@@ -1,4 +1,4 @@
-vim.g.user_colorscheme = "monokai"
+vim.g.user_colorscheme = "catppuccin"
 
 require("catppuccin").setup({
 	transparent_background = false,

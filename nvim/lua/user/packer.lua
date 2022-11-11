@@ -37,14 +37,17 @@ return require('packer').startup(function(use)
   --Set this up later
 
 --  use("nvim-treesitter/playground")
---  use("romgrk/nvim-treesitter-context")
+    use("romgrk/nvim-treesitter-context")
 --
 --
     use("mfussenegger/nvim-dap")
     use("rcarriga/nvim-dap-ui")
     use("theHamsta/nvim-dap-virtual-text")
 
-
+    use {
+      'nvim-lualine/lualine.nvim',
+      requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    }
 
 end)
 
