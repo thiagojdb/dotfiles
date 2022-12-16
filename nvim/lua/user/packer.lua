@@ -20,7 +20,10 @@ return require('packer').startup(function(use)
   use("mbbill/undotree")
   use("williamboman/mason.nvim")
   use("mfussenegger/nvim-jdtls")
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 
+
+  use('ThePrimeagen/vim-be-good')
 
   -- I don't even know, but code looks pretter
   use("nvim-treesitter/nvim-treesitter", {

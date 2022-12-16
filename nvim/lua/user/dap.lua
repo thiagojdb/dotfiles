@@ -2,7 +2,16 @@ local dap = require('dap')
 
 local current_working_directory = vim.fn.getcwd()..'/.idea/run_configs.lua';
 
-dap.configurations.java = dofile(current_working_directory)
+function loadRunConfigurations()
+  dap.configurations.java = dofile(current_working_directory)
+end
+
+
+if pcall(loadRunConfigurations) then
+  print('success')
+else
+  print('failure')
+end
 
 require("dapui").setup({
   icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
