@@ -1,17 +1,11 @@
-local nnoremap = require("user.keymap").nnoremap
+local mark = require("harpoon.mark")
+local ui = require("harpoon.ui")
 
-local silent = { silent = true }
+vim.keymap.set("n", "<leader>a", mark.add_file)
 
--- Terminal commands
--- ueoa is first through fourth finger left hand home row.
--- This just means I can crush, with opposite hand, the 4 terminal positions
---
--- These functions are stored in harpoon.  A plugn that I am developing
-nnoremap("<leader>ha", function() require("harpoon.mark").add_file() end, silent)
-nnoremap("<C-e>", function() require("harpoon.ui").toggle_quick_menu() end, silent)
+vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
 
-nnoremap("<C-h>", function() require("harpoon.ui").nav_file(1) end, silent)
-nnoremap("<C-t>", function() require("harpoon.ui").nav_file(2) end, silent)
-nnoremap("<C-n>", function() require("harpoon.ui").nav_file(3) end, silent)
-nnoremap("<C-s>", function() require("harpoon.ui").nav_file(4) end, silent)
-nnoremap("<F12>", function() require("dapui").toggle() end, silent)
+vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end)
+vim.keymap.set("n", "<C-t>", function() ui.nav_file(2) end)
+vim.keymap.set("n", "<C-n>", function() ui.nav_file(3) end)
+vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end)

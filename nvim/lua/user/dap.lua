@@ -1,17 +1,19 @@
 local dap = require('dap')
 
-local current_working_directory = vim.fn.getcwd()..'/.idea/run_configs.lua';
-
-function loadRunConfigurations()
-  dap.configurations.java = dofile(current_working_directory)
+local function load_run_configurations()
+  dap.configurations.java = dofile(vim.fn.getcwd() .. '/.idea/run_configs.lua')
 end
 
+vim.api.nvim_create_user_command(
+  'DapLoadRunConfigurations',
+  function()
+    if pcall(load_run_configurations) then
+      print('Run configurations loaded!')
+    end
+  end,
+  { nargs = 0 }
+)
 
-if pcall(loadRunConfigurations) then
-  print('success')
-else
-  print('failure')
-end
 
 require("dapui").setup({
   icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
@@ -45,7 +47,7 @@ require("dapui").setup({
   layouts = {
     {
       elements = {
-      -- Elements can be strings or table with id and size keys.
+        -- Elements can be strings or table with id and size keys.
         { id = "scopes", size = 0.25 },
         "breakpoints",
         "stacks",
