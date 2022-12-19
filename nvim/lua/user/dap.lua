@@ -18,39 +18,19 @@ vim.api.nvim_create_user_command(
 require("dapui").setup({
   icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
   mappings = {
-    -- Use a table to apply multiple mappings
-    expand = { "<CR>", "<2-LeftMouse>" },
+    expand = "<CR>",
     open = "o",
     remove = "d",
     edit = "e",
     repl = "r",
     toggle = "t",
   },
-  -- Use this to override mappings for specific elements
-  element_mappings = {
-    -- Example:
-    -- stacks = {
-    --   open = "<CR>",
-    --   expand = "o",
-    -- }
-  },
-  -- Expand lines larger than the window
-  -- Requires >= 0.7
   expand_lines = 1,
-  -- Layouts define sections of the screen to place windows.
-  -- The position can be "left", "right", "top" or "bottom".
-  -- The size specifies the height/width depending on position. It can be an Int
-  -- or a Float. Integer specifies height/width directly (i.e. 20 lines/columns) while
-  -- Float value specifies percentage (i.e. 0.3 - 30% of available lines/columns)
-  -- Elements are the elements shown in the layout (in order).
-  -- Layouts are opened in order so that earlier layouts take priority in window sizing.
   layouts = {
     {
       elements = {
-        -- Elements can be strings or table with id and size keys.
         { id = "scopes", size = 0.25 },
         "breakpoints",
-        "stacks",
         "watches",
       },
       size = 40, -- 40 columns
@@ -58,10 +38,9 @@ require("dapui").setup({
     },
     {
       elements = {
-        "repl",
         "console",
       },
-      size = 0.25, -- 25% of total lines
+      size = 0.30,
       position = "bottom",
     },
   },
