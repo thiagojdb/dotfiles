@@ -1,18 +1,3 @@
-local dap = require('dap')
-
-local function load_run_configurations()
-  dap.configurations.java = dofile(vim.fn.getcwd() .. '/.idea/run_configs.lua')
-end
-
-vim.api.nvim_create_user_command(
-  'DapLoadRunConfigurations',
-  function()
-    if pcall(load_run_configurations) then
-      print('Run configurations loaded!')
-    end
-  end,
-  { nargs = 0 }
-)
 
 
 require("dapui").setup({

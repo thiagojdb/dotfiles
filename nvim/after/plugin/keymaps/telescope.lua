@@ -1,6 +1,3 @@
-local Remap = require("user.keymap")
-local nnoremap = Remap.nnoremap
-
 vim.keymap.set("n", "<leader>ps", function()
     require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})
 end)
