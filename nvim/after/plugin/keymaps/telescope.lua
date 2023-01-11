@@ -21,3 +21,7 @@ end)
 vim.keymap.set("n", "<leader>vrc", function()
     require('user.telescope').search_dotfiles()
 end)
+
+vim.keymap.set("n", "<leader>sb", function()
+    require('user.telescope').anime_selector()
+end)

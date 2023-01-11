@@ -1,5 +1,8 @@
 local home = os.getenv "HOME"
-local workspace_folder = home .. "/.local/share/eclipse/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
+
+local git_module_path = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' })
+
+local workspace_folder = home .. "/.local/share/eclipse" .. git_module_path
 
 local java_debug_path = vim.fn.glob(home .. "/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/*.jar"
   , 1)
@@ -83,7 +86,12 @@ local config = {
     vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+    vim.api.nvim_create_user_command('JdtCompile', function()
+      require('jdtls').compile('full')
+    end, { nargs = 0 })
     require('jdtls').setup_dap({ hotcodereplace = 'auto' })
+    require('dap.ext.vscode').load_launchjs()
+
   end,
 
   init_options = {
@@ -91,6 +99,5 @@ local config = {
   },
 
 }
-
 
 require('jdtls').start_or_attach(config);

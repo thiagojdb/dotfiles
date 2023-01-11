@@ -12,11 +12,17 @@ return require('packer').startup(function(use)
   use("hrsh7th/cmp-buffer")
   use("hrsh7th/nvim-cmp")
   use("onsails/lspkind-nvim")
+  use({
+    "HendrikPetertje/telescope-media-files.nvim",
+    branch = "fix-replace-ueber-with-viu",
+    requires = { { "nvim-lua/popup.nvim" } }
+  })
   use("nvim-lua/lsp_extensions.nvim")
   use("glepnir/lspsaga.nvim")
   use("simrat39/symbols-outline.nvim")
   use("mbbill/undotree")
   use("mfussenegger/nvim-jdtls")
+  use('f-person/git-blame.nvim')
   use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
   use({
     'rose-pine/neovim',
@@ -27,7 +33,7 @@ return require('packer').startup(function(use)
   })
 
   use('ThePrimeagen/vim-be-good')
-
+use('folke/tokyonight.nvim')
   -- I don't even know, but code looks pretter
   use("nvim-treesitter/nvim-treesitter", {
     run = ":TSUpdate"
@@ -42,14 +48,14 @@ return require('packer').startup(function(use)
   use('tanvirtin/monokai.nvim')
 
   --Set this up later
-
-  --  use("nvim-treesitter/playground")
+  use("nvim-treesitter/playground")
   use("romgrk/nvim-treesitter-context")
   --
   --
   use("mfussenegger/nvim-dap")
   use("rcarriga/nvim-dap-ui")
   use("theHamsta/nvim-dap-virtual-text")
+  use('RRethy/vim-illuminate')
 
   use {
     'VonHeikemen/lsp-zero.nvim',
@@ -79,3 +85,5 @@ return require('packer').startup(function(use)
   }
 
 end)
+
+

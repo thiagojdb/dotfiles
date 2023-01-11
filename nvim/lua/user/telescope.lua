@@ -1,5 +1,4 @@
 local actions = require("telescope.actions")
-
 require("telescope").setup({
   defaults = {
     file_sorter = require("telescope.sorters").get_fzy_sorter,
@@ -17,17 +16,20 @@ require("telescope").setup({
         ["<CR>"] = actions.select_default,
       },
     },
+
+
   },
-  --[[
-	extensions = {
-		fzy_native = {
-			override_generic_sorter = false,
-			override_file_sorter = true,
-		},
-	},
-    ]]
+  extensions = {
+    media_files = {
+      -- filetypes whitelist
+      -- d
+      filetypes = { "png", "jpg", "pdf", "jpeg" },
+      find_cmd = "rg"
+    }
+  },
 })
 
+require('telescope').load_extension('media_files')
 require("telescope").load_extension("git_worktree")
 -- require("telescope").load_extension("fzy_native")
 
@@ -43,19 +45,24 @@ M.search_dotfiles = function()
 end
 
 local function set_background(content)
-  print(content)
-  vim.fn.system("feh --bg-max " .. content)
+  local selected_image_path = '\\\\\\\\\\\\\\\\wsl.localhost\\\\\\\\Ubuntu'.. string.gsub(content, '/', '\\\\\\\\')
+  local COMMAND = "silent !sed -i -E "
+  local PATTERN = '\'s/("backgroundImage").*/\\"backgroundImage": "'.. selected_image_path ..'", /\' '
+  local CONFIG_FILE_PATH = '/mnt/c/Users/thiago.sousa/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json';
+  vim.cmd(COMMAND .. PATTERN .. CONFIG_FILE_PATH)
+  --  sed -i -E 's/("backgroundImage").*/\"backgroundImage": "\\wsl.localhost\Ubuntu\\home\\thiago\\anime\\rose-pine-sword.jpg"/' /mnt/c/Users/thiago.sousa/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
+  --  sed -i -E 's/("backgroundImage").*/\rararasputin/' something.txt
 end
 
 local function select_background(prompt_bufnr, map)
   local function set_the_background(close)
+
     local content = require("telescope.actions.state").get_selected_entry(prompt_bufnr)
     set_background(content.cwd .. "/" .. content.value)
     if close then
       require("telescope.actions").close(prompt_bufnr)
     end
   end
-
   map("i", "<C-p>", function()
     set_the_background()
   end)
@@ -67,12 +74,12 @@ end
 
 local function image_selector(prompt, cwd)
   return function()
+    --require('telescope').extensions.media_files.media_files({
     require("telescope.builtin").find_files({
       prompt_title = prompt,
       cwd = cwd,
 
       attach_mappings = function(prompt_bufnr, map)
-        print("help me ???")
         select_background(prompt_bufnr, map)
 
         -- Please continue mapping (attaching additional key maps):
@@ -83,6 +90,6 @@ local function image_selector(prompt, cwd)
   end
 end
 
-M.anime_selector = image_selector("< Anime Bobs > ", "~/personal/anime")
+M.anime_selector = image_selector("< Anime Bobs > ", "~/anime")
 
 return M

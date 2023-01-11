@@ -1,6 +1,4 @@
-
-
-require("dapui").setup({
+local M = {
   icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
   mappings = {
     expand = "<CR>",
@@ -58,4 +56,6 @@ require("dapui").setup({
     max_type_length = nil, -- Can be integer or nil.
     max_value_lines = 100, -- Can be integer or nil.
   }
-})
+}
+
+return M;
